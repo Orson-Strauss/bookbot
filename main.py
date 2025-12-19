@@ -1,8 +1,9 @@
+import sys
 from stats import get_word_count, get_char_counts, sort_char_dict
 
-def get_book_text():
+def get_book_text(path: str):
     
-    with open('./books/frankenstein.txt') as f:
+    with open(path) as f:
         book_blob = f.read()
     
     return book_blob
@@ -20,10 +21,17 @@ def print_display(path: str, wc: int, char_list: list):
 
 def main():
 
-    word_count = get_word_count(get_book_text())
-    sorted_char_list = (sort_char_dict(get_char_counts(get_book_text())))
+    if len(sys.argv) < 2:
+        
+        print("Usage: python3 main.py <path_to_book>")
+        sys.exit(1)
 
-    print_display('./books/frankenstein.txt', word_count, sorted_char_list)
+    path = sys.argv[1]
+    book_blob = get_book_text(path)
+    word_count = get_word_count(book_blob)
+    sorted_char_list = (sort_char_dict(get_char_counts(book_blob)))
+
+    print_display(path, word_count, sorted_char_list)
 
 if __name__ == "__main__":
     main()
